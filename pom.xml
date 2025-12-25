@@ -6,9 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.shore</groupId>
-    <artifactId>ShorePresentsClaim</artifactId>
+    <artifactId>RewardCrate</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
+
+    <name>RewardCrate</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,6 +39,7 @@
     </dependencies>
 
     <build>
+        <finalName>RewardCrate</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

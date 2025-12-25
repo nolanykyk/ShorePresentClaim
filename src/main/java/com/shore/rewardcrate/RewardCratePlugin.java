@@ -69,6 +69,9 @@ public final class RewardCratePlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         try {
+            // PlugMan unload/reload safety: ensure no scheduled work survives disable.
+            Bukkit.getScheduler().cancelTasks(this);
+
             if (crateService != null) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     try {

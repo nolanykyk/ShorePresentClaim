@@ -61,6 +61,10 @@ public final class RewardCrateService {
         this.coalChance = Math.max(0D, Math.min(1D, coalChance));
     }
 
+    public RewardCratePlugin getPlugin() {
+        return plugin;
+    }
+
     public GuiConfig getGui() {
         return gui;
     }

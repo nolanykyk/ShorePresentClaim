@@ -1,6 +1,9 @@
 package com.shore.rewardcrate;
 
 import org.bukkit.Material;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +18,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.Event;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,34 +58,40 @@ public final class RewardCrateListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        ItemStack inHand = event.getItemInHand();
-        if (!service.isCrateItem(inHand)) {
+        ItemStack byEvent = event.getItemInHand();
+        ItemStack byHand = (event.getHand() == EquipmentSlot.OFF_HAND)
+                ? player.getInventory().getItemInOffHand()
+                : player.getInventory().getItemInMainHand();
+
+        if (!service.isCrateItem(byEvent) && !service.isCrateItem(byHand)) {
             return;
         }
 
-        String crateId = service.matchCrateId(inHand);
-        if (crateId == null) {
-            return;
-        }
-
-        // "Placed" crate: cancel placement, consume item, open GUI.
+        // Safety net: never allow the present item to be placed as a block.
         event.setCancelled(true);
+    }
 
-        // Even if another event handler already consumed/opened this tick, never allow the block to place.
-        if (!tryMarkUse(player)) {
-            return;
-        }
-
-        consumeIfEnabled(player, event.getHand());
-        service.openCrate(player, crateId);
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onPlaceMonitor(BlockPlaceEvent event) {
+        // Last-chance guard: some plugins may uncancel after earlier handlers.
+        Player player = event.getPlayer();
+        ItemStack byEvent = event.getItemInHand();
+        ItemStack byHand = (event.getHand() == EquipmentSlot.OFF_HAND)
+                ? player.getInventory().getItemInOffHand()
+                : player.getInventory().getItemInMainHand();
+        if (!service.isCrateItem(byEvent) && !service.isCrateItem(byHand)) return;
+        event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onInteract(PlayerInteractEvent event) {
         if (event.getHand() == null) return;
+        // Paper fires interact twice (main hand + offhand). Only handle main hand to avoid consuming twice.
+        if (event.getHand() != EquipmentSlot.HAND) return;
+
         Action action = event.getAction();
         if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) return;
 
@@ -97,15 +107,59 @@ public final class RewardCrateListener implements Listener {
             return;
         }
 
+        // Prevent placement and block interaction when using a present.
         event.setCancelled(true);
+        event.setUseItemInHand(Event.Result.DENY);
+        event.setUseInteractedBlock(Event.Result.DENY);
 
         // Prevent double-trigger (Interact + Place) from consuming twice.
         if (!tryMarkUse(player)) {
             return;
         }
 
+        // ItemsAdder (and some similar plugins) can place blocks programmatically even if events are cancelled.
+        // Capture the *expected* placement target and revert it next tick if it gets placed anyway.
+        Location placeLoc = null;
+        Material beforeType = null;
+        Material expectedPlacedType = stack.getType();
+        if (action == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getBlockFace() != null) {
+            Block target = event.getClickedBlock().getRelative(event.getBlockFace());
+            placeLoc = target.getLocation();
+            beforeType = target.getType();
+        }
+
         consumeIfEnabled(player, event.getHand());
         service.openCrate(player, crateId);
+
+        if (placeLoc != null && beforeType != null) {
+            final Location finalPlaceLoc = placeLoc;
+            final Material finalBeforeType = beforeType;
+            Bukkit.getScheduler().runTask(service.getPlugin(), () -> {
+                Block target = finalPlaceLoc.getBlock();
+                // Only revert if it changed into the same type as the present item.
+                if (target.getType() == expectedPlacedType && finalBeforeType != expectedPlacedType) {
+                    target.setType(finalBeforeType, false);
+                }
+            });
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onInteractMonitor(PlayerInteractEvent event) {
+        // Last-chance guard: prevent vanilla block placement/interaction with present items.
+        if (event.getHand() == null) return;
+        if (event.getHand() != EquipmentSlot.HAND) return;
+
+        Action action = event.getAction();
+        if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) return;
+
+        ItemStack stack = event.getItem();
+        if (stack == null || stack.getType() == Material.AIR) return;
+        if (!service.isCrateItem(stack)) return;
+
+        event.setCancelled(true);
+        event.setUseItemInHand(Event.Result.DENY);
+        event.setUseInteractedBlock(Event.Result.DENY);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
