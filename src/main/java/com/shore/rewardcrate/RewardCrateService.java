@@ -254,7 +254,9 @@ public final class RewardCrateService {
         // Run commands first (optional)
         if (reward.commands() != null) {
             for (String cmd : reward.commands()) {
+                System.out.println(cmd);
                 if (cmd == null || cmd.isBlank()) continue;
+                System.out.println("retarded");
                 String finalCmd = cmd.replace("{player}", player.getName());
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCmd);
             }
