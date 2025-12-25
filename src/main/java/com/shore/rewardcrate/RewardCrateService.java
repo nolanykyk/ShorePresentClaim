@@ -223,6 +223,16 @@ public final class RewardCrateService {
         openTiers.remove(player.getUniqueId());
     }
 
+    public void shutdown() {
+        for (BukkitTask task : closeTasks.values()) {
+            if (task != null) task.cancel();
+        }
+        closeTasks.clear();
+        claimedThisOpen.clear();
+        openCrateIds.clear();
+        openTiers.clear();
+    }
+
     public void giveRandomReward(Player player) {
         // Backwards-compatible helper; kept but now delegates.
         claimRandomReward(player);

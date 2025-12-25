@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -15,9 +16,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.block.Action;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public final class RewardCrateListener implements Listener {
 
     private RewardCrateService service;
+
+    // Prevent double-trigger (Interact + Place) from consuming twice.
+    private final Map<UUID, Long> lastUseMs = new HashMap<>();
 
     public RewardCrateListener(RewardCrateService service) {
         this.service = service;
@@ -25,6 +33,25 @@ public final class RewardCrateListener implements Listener {
 
     public void setService(RewardCrateService service) {
         this.service = service;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+    public void onBreak(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+
+        // If they are interacting with our crate GUI, block breaking should be prevented.
+        Inventory top = player.getOpenInventory().getTopInventory();
+        if (service.isOurGui(player, top)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        // Also prevent block breaking while holding a crate item (mainhand or offhand).
+        ItemStack main = player.getInventory().getItemInMainHand();
+        ItemStack off = player.getInventory().getItemInOffHand();
+        if (service.isCrateItem(main) || service.isCrateItem(off)) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
@@ -42,6 +69,12 @@ public final class RewardCrateListener implements Listener {
 
         // "Placed" crate: cancel placement, consume item, open GUI.
         event.setCancelled(true);
+
+        // Even if another event handler already consumed/opened this tick, never allow the block to place.
+        if (!tryMarkUse(player)) {
+            return;
+        }
+
         consumeIfEnabled(player, event.getHand());
         service.openCrate(player, crateId);
     }
@@ -65,6 +98,12 @@ public final class RewardCrateListener implements Listener {
         }
 
         event.setCancelled(true);
+
+        // Prevent double-trigger (Interact + Place) from consuming twice.
+        if (!tryMarkUse(player)) {
+            return;
+        }
+
         consumeIfEnabled(player, event.getHand());
         service.openCrate(player, crateId);
     }
@@ -130,5 +169,16 @@ public final class RewardCrateListener implements Listener {
         } else {
             item.setAmount(amt - 1);
         }
+    }
+
+    private boolean tryMarkUse(Player player) {
+        long now = System.currentTimeMillis();
+        UUID id = player.getUniqueId();
+        Long last = lastUseMs.get(id);
+        if (last != null && (now - last) < 250L) {
+            return false;
+        }
+        lastUseMs.put(id, now);
+        return true;
     }
 }

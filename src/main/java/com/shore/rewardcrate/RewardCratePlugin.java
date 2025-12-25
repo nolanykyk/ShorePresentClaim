@@ -9,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -67,7 +68,29 @@ public final class RewardCratePlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        HandlerList.unregisterAll(this);
+        try {
+            if (crateService != null) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    try {
+                        Inventory top = player.getOpenInventory().getTopInventory();
+                        if (crateService.isOurGui(player, top)) {
+                            player.closeInventory();
+                        }
+                    } catch (Exception ignored) {
+                        // Best-effort cleanup for reload/unload scenarios.
+                    }
+                }
+                crateService.shutdown();
+            }
+        } finally {
+            HandlerList.unregisterAll(this);
+            if (listener != null) {
+                HandlerList.unregisterAll(listener);
+            }
+            listener = null;
+            crateService = null;
+            crateKey = null;
+        }
     }
 
     @Override
