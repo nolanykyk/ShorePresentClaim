@@ -1,0 +1,8 @@
+com\shore\rewardcrate\RewardCratePlugin.class
+com\shore\rewardcrate\RewardDefinition.class
+com\shore\rewardcrate\RewardCrateService.class
+com\shore\rewardcrate\ItemFactory.class
+com\shore\rewardcrate\RewardCrateListener.class
+com\shore\rewardcrate\TextUtil.class
+com\shore\rewardcrate\RewardCrateHolder.class
+com\shore\rewardcrate\GuiConfig.class

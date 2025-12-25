@@ -1,0 +1,620 @@
+gui:
+  title: "&8Reward Crate"
+  consume-item: true
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    name: " "
+  # Which slots are clickable claim buttons (0-26). If you only want 1 slot, leave this as [13]
+  claim-slots: [13]
+  claim-item:
+    material: CHEST
+    name: "&a&lCLICK TO CLAIM"
+    lore:
+      - "&7Pick a slot to claim"
+
+# Tier settings
+# - Each crate item can have a numeric tier (1..max-tier)
+# - If quality-gating=true, higher tiers are biased toward the later/better rewards in the list
+# - coal-chance is the chance to get COAL instead of a reward (applies to any present)
+tiers:
+  max-tier: 6
+  quality-gating: true
+  # If true, ONLY rewards with tier rules (tiers/min-tier/max-tier) can be won.
+  # This is the "reward items must use the tier system" mode.
+  require-tier-match: true
+  coal-chance: 0.25
+
+crate-items:
+  item1:
+    material: PAPER
+    display-name: "&#FFC517&lEXTRA SMALL &fPresent &7[&#91C6FFChristmas Limited&7]"
+    tier: 1
+  item2:
+    material: PAPER
+    display-name: "&#A0FF24&lSMALL &fPresent &7[&#91C6FFChristmas Limited&7]"
+    tier: 2
+  item3:
+    material: PAPER
+    display-name: "&#FF0000&lMEDIUM &fPresent &7[&#91C6FFChristmas Limited&7]"
+    tier: 3
+  item4:
+    material: PAPER
+    display-name: "&#FF0048&lLARGE &fPresent &7[&#91C6FFChristmas Limited&7]"
+    tier: 4
+  item5:
+    material: PAPER
+    display-name: "&#FF4242&lEXTRA LARGE &fPresent &7[&#91C6FFChristmas Limited&7]"
+    tier: 5
+  item6:
+    material: PAPER
+    display-name: "&#FFC124&lMEGA &fPresent &7[&#91C6FFChristmas Limited&7]"
+    tier: 6
+
+rewards:
+  # Tier restriction options (optional, per reward):
+  # - tier: 4                # available in tier 4+ (alias for min-tier)
+  # - tiers: [3,4,5]         # only available in those tiers
+  # - min-tier: 4            # available in tier 4+
+  # - max-tier: 2            # available up to tier 2
+  # - give-item: false       # commands-only (no physical item), still shows in GUI
+
+  # Shell Currency Rewards
+  - material: NAUTILUS_SHELL
+    amount: 1
+    tier: 1
+    display-name: "&#F55B27🌊 Shells"
+    lore:
+      - "&fReceive &#F55B27875 Shells&f!"
+    commands:
+      - "shellsadmin give {player} 875"
+  - material: NAUTILUS_SHELL
+    amount: 1
+    tier: 1
+    display-name: "&#F55B27🌊 Shells"
+    lore:
+      - "&fReceive &#F55B271,750 Shells&f!"
+    commands:
+      - "shellsadmin give {player} 1750"
+  - material: NAUTILUS_SHELL
+    amount: 1
+    tier: 1
+    display-name: "&#F55B27🌊 Shells"
+    lore:
+      - "&fReceive &#F55B273,500 Shells&f!"
+    commands:
+      - "shellsadmin give {player} 3500"
+  - material: NAUTILUS_SHELL
+    amount: 1
+    tier: 1
+    display-name: "&#F55B27🌊 Shells"
+    lore:
+      - "&fReceive &#F55B278,750 Shells&f!"
+    commands:
+      - "shellsadmin give {player} 8750"
+  - material: NAUTILUS_SHELL
+    amount: 1
+    tier: 3
+    display-name: "&#F55B27🌊 Shells"
+    lore:
+      - "&fReceive &#F55B2715,000 Shells&f!"
+    commands:
+      - "shellsadmin give {player} 15000"
+  - material: NAUTILUS_SHELL
+    amount: 1
+    tier: 3
+    display-name: "&#F55B27🌊 Shells"
+    lore:
+      - "&fReceive &#F55B2725,000 Shells&f!"
+    commands:
+      - "shellsadmin give {player} 25000"
+
+  # Money Rewards
+  - material: PAPER
+    amount: 1
+    tier: 2
+    display-name: "&#7DFFA8$ Money"
+    lore:
+      - "&fReceive &#7DFFA8$37,500&f!"
+    commands:
+      - "eco give {player} 37500"
+  - material: PAPER
+    amount: 1
+    tier: 2
+    display-name: "&#7DFFA8$ Money"
+    lore:
+      - "&fReceive &#7DFFA8$75,000&f!"
+    commands:
+      - "eco give {player} 75000"
+  - material: PAPER
+    amount: 1
+    tier: 2
+    display-name: "&#7DFFA8$ Money"
+    lore:
+      - "&fReceive &#7DFFA8$150,000&f!"
+    commands:
+      - "eco give {player} 150000"
+  - material: PAPER
+    amount: 1
+    tier: 3
+    display-name: "&#7DFFA8$ Money"
+    lore:
+      - "&fReceive &#7DFFA8$225,000&f!"
+    commands:
+      - "eco give {player} 225000"
+  - material: PAPER
+    amount: 1
+    tier: 3
+    display-name: "&#7DFFA8$ Money"
+    lore:
+      - "&fReceive &#7DFFA8$375,000&f!"
+    commands:
+      - "eco give {player} 375000"
+  - material: PAPER
+    amount: 1
+    tier: 3
+    display-name: "&#7DFFA8$ Money"
+    lore:
+      - "&fReceive &#7DFFA8$750,000&f!"
+    commands:
+      - "eco give {player} 750000"
+
+  # Netherite Rewards
+  - material: NETHERITE_SCRAP
+    amount: 2
+    tier: 3
+    display-name: "&fNetherite Scrap"
+    lore:
+      - "&fRemnants of the old world."
+  - material: NETHERITE_SCRAP
+    amount: 4
+    tier: 3
+    display-name: "&fNetherite Scrap"
+    lore:
+      - "&fForgotten relics."
+  - material: NETHERITE_SCRAP
+    amount: 8
+    tier: 3
+    display-name: "&fNetherite Ingot"
+    lore:
+      - "&fAbundant nether fragments."
+  - material: NETHERITE_INGOT
+    amount: 1
+    tier: 3
+    display-name: "&fNetherite Ingot"
+    lore:
+      - "&fForged from ancient scraps."
+  - material: NETHERITE_INGOT
+    amount: 2
+    tier: 3
+    display-name: "&fNetherite Ingot"
+    lore:
+      - "&fDual power."
+  - material: NETHERITE_INGOT
+    amount: 4
+    tier: 3
+    display-name: "&fNetherite Ingot"
+    lore:
+      - "&fRare nether metal."
+  - material: NETHERITE_INGOT
+    amount: 8
+    tier: 3
+    display-name: "&fNetherite Ingot"
+    lore:
+      - "&fUltimate armor material."
+
+  # Food & Consumables
+  - material: GOLDEN_APPLE
+    amount: 3
+    tier: 3
+    display-name: "&fGolden Apples"
+    lore:
+      - "&fHealing power."
+  - material: GOLDEN_APPLE
+    amount: 5
+    tier: 3
+    display-name: "&fGolden Apples"
+    lore:
+      - "&fAbsorption boost."
+  - material: GOLDEN_APPLE
+    amount: 10
+    tier: 3
+    display-name: "&dEnchanted Golden Apples"
+    lore:
+      - "&fHealing stockpile."
+  - material: ENCHANTED_GOLDEN_APPLE
+    amount: 1
+    tier: 3
+    display-name: "&dEnchanted Golden Apples"
+    lore:
+      - "&fLegendary recovery."
+  - material: ENCHANTED_GOLDEN_APPLE
+    amount: 2
+    tier: 3
+    display-name: "&fExperience Bottle"
+    lore:
+      - "&fDouble legendary power."
+  - material: EXPERIENCE_BOTTLE
+    amount: 16
+    tier: 3
+    display-name: "&eBottle O' Enchanting"
+    lore:
+      - "&fBottled knowledge."
+  - material: EXPERIENCE_BOTTLE
+    amount: 32
+    tier: 3
+    display-name: "&eBottle O' Enchanting"
+    lore:
+      - "&fOverflowing experience."
+  - material: EXPERIENCE_BOTTLE
+    amount: 64
+    tier: 3
+    display-name: "&#33CCFFArcane Hoard"
+    lore:
+      - "&fMaximum enchantment power."
+  - material: COOKED_BEEF
+    amount: 32
+    tier: 3
+    display-name: "&fSteak"
+    lore:
+      - "&fSatiation guaranteed."
+  - material: COOKED_BEEF
+    amount: 64
+    tier: 3
+    display-name: "&fSteak"
+    lore:
+      - "&fNever go hungry."
+
+  # Enchanted Books
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fMending I"
+    enchantments:
+      - "MENDING:1"
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fFortune III"
+    enchantments:
+      - "FORTUNE:3"
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fSharpness V"
+    enchantments:
+      - "SHARPNESS:5"
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fProtection IV"
+    enchantments:
+      - "PROTECTION:4"
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fEfficiency V"
+    enchantments:
+      - "EFFICIENCY:5"
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fUnbreaking III"
+    enchantments:
+      - "UNBREAKING:3"
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fLooting III"
+    enchantments:
+      - "LOOTING:3"
+  - material: ENCHANTED_BOOK
+    amount: 1
+    tier: 4
+    display-name: "&dEnchanted Book"
+    lore:
+      - "&fFeather Falling IV"
+    enchantments:
+      - "FEATHER_FALLING:4"
+
+  # Enchanted Diamond Tools
+  - material: DIAMOND_SWORD
+    amount: 1
+    tier: 5
+    display-name: "&#FF66CC⚔ Swift Blade"
+    lore:
+      - "&fLight and lethal."
+    enchantments:
+      - "SHARPNESS:5"
+      - "UNBREAKING:3"
+      - "LOOTING:3"
+  - material: DIAMOND_SWORD
+    amount: 1
+    tier: 5
+    display-name: "&#FF0048⚔ Demon Slayer"
+    lore:
+      - "&fMaximum damage output."
+    enchantments:
+      - "SHARPNESS:5"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+      - "LOOTING:3"
+      - "SWEEPING_EDGE:3"
+  - material: DIAMOND_PICKAXE
+    amount: 1
+    tier: 5
+    display-name: "&#55FFFF⛏ Fortune Miner"
+    lore:
+      - "&fWealth extractor."
+    enchantments:
+      - "FORTUNE:3"
+      - "EFFICIENCY:5"
+      - "UNBREAKING:3"
+  - material: DIAMOND_PICKAXE
+    amount: 1
+    tier: 5
+    display-name: "&#FFD700⛏ Master Pickaxe"
+    lore:
+      - "&fUltimate mining tool."
+    enchantments:
+      - "FORTUNE:3"
+      - "EFFICIENCY:5"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+  - material: DIAMOND_AXE
+    amount: 1
+    tier: 5
+    display-name: "&#FF4500🪓 Timber Cleaver"
+    lore:
+      - "&fForest destroyer."
+    enchantments:
+      - "EFFICIENCY:5"
+      - "UNBREAKING:3"
+  - material: DIAMOND_AXE
+    amount: 1
+    tier: 5
+    display-name: "&#8B0000🪓 Berserker Axe"
+    lore:
+      - "&fCombat and chopping."
+    enchantments:
+      - "SHARPNESS:5"
+      - "EFFICIENCY:5"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+  - material: DIAMOND_SHOVEL
+    amount: 1
+    tier: 5
+    display-name: "&#A0522D⛏ Swift Shovel"
+    lore:
+      - "&fSpeed excavation."
+    enchantments:
+      - "EFFICIENCY:5"
+      - "UNBREAKING:3"
+  - material: DIAMOND_SHOVEL
+    amount: 1
+    tier: 5
+    display-name: "&#D2691E⛏ Fortune Shovel"
+    lore:
+      - "&fGravel and clay wealth."
+    enchantments:
+      - "FORTUNE:3"
+      - "EFFICIENCY:5"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+  - material: DIAMOND_HOE
+    amount: 1
+    tier: 5
+    display-name: "&#228B22🌾 Farmer's Tool"
+    lore:
+      - "&fEfficient farming."
+    enchantments:
+      - "EFFICIENCY:5"
+      - "UNBREAKING:3"
+
+  # Enchanted Netherite Armor Sets
+  - material: NETHERITE_HELMET
+    amount: 1
+    tier: 4
+    display-name: "&#00CED1⛑ Guardian Helmet"
+    lore:
+      - "&fProtection and breathing."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+      - "RESPIRATION:3"
+      - "AQUA_AFFINITY:1"
+  - material: NETHERITE_HELMET
+    amount: 1
+    tier: 4
+    display-name: "&#4169E1⛑ Elite Helmet"
+    lore:
+      - "&fMaximum head protection."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+      - "RESPIRATION:3"
+      - "AQUA_AFFINITY:1"
+  - material: NETHERITE_CHESTPLATE
+    amount: 1
+    tier: 4
+    display-name: "&#1E90FF🛡 Guardian Chestplate"
+    lore:
+      - "&fCore protection."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+  - material: NETHERITE_CHESTPLATE
+    amount: 1
+    tier: 4
+    display-name: "&#0000CD🛡 Elite Chestplate"
+    lore:
+      - "&fMaximum body protection."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+  - material: NETHERITE_LEGGINGS
+    amount: 1
+    tier: 4
+    display-name: "&#6495ED👖 Guardian Leggings"
+    lore:
+      - "&fLeg protection."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+  - material: NETHERITE_LEGGINGS
+    amount: 1
+    tier: 4
+    display-name: "&#4682B4👖 Elite Leggings"
+    lore:
+      - "&fMaximum leg protection."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+  - material: NETHERITE_LEGGINGS
+    amount: 1
+    tier: 4
+    display-name: "&#FF6347👖 Blast Leggings"
+    lore:
+      - "&fExplosion resistant."
+    enchantments:
+      - "BLAST_PROTECTION:4"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+  - material: NETHERITE_BOOTS
+    amount: 1
+    tier: 4
+    display-name: "&#5F9EA0👢 Guardian Boots"
+    lore:
+      - "&fMobility and protection."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+      - "FEATHER_FALLING:4"
+      - "DEPTH_STRIDER:3"
+  - material: NETHERITE_BOOTS
+    amount: 1
+    tier: 4
+    display-name: "&#008B8B👢 Elite Boots"
+    lore:
+      - "&fMaximum foot protection."
+    enchantments:
+      - "PROTECTION:4"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+      - "FEATHER_FALLING:4"
+      - "DEPTH_STRIDER:3"
+  - material: NETHERITE_BOOTS
+    amount: 1
+    tier: 4
+    display-name: "&#FF4500👢 Blast Boots"
+    lore:
+      - "&fExplosion resistant."
+    enchantments:
+      - "BLAST_PROTECTION:4"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+      - "FEATHER_FALLING:4"
+      - "DEPTH_STRIDER:3"
+
+  # Other Weapons
+  - material: BOW
+    amount: 1
+    tier: 6
+    display-name: "&#9370DB🏹 Sniper's Bow"
+    lore:
+      - "&fDeadly accuracy."
+    enchantments:
+      - "POWER:5"
+      - "INFINITY:1"
+      - "UNBREAKING:3"
+  - material: BOW
+    amount: 1
+    tier: 6
+    display-name: "&#8A2BE2🏹 Master Bow"
+    lore:
+      - "&fUltimate archery."
+    enchantments:
+      - "POWER:5"
+      - "INFINITY:1"
+      - "UNBREAKING:3"
+      - "FLAME:1"
+      - "PUNCH:2"
+  - material: CROSSBOW
+    amount: 1
+    tier: 6
+    display-name: "&#FF1493🏹 Rapid Crossbow"
+    lore:
+      - "&fQuick reload."
+    enchantments:
+      - "QUICK_CHARGE:3"
+      - "UNBREAKING:3"
+      - "MULTISHOT:1"
+  - material: TRIDENT
+    amount: 1
+    tier: 6
+    display-name: "&#00BFFF🔱 Ocean's Fury"
+    lore:
+      - "&fCommand the seas."
+    enchantments:
+      - "LOYALTY:3"
+      - "IMPALING:5"
+      - "UNBREAKING:3"
+  - material: TRIDENT
+    amount: 1
+    tier: 6
+    display-name: "&#1E90FF🔱 Poseidon's Wrath"
+    lore:
+      - "&fAquatic devastation."
+    enchantments:
+      - "LOYALTY:3"
+      - "IMPALING:5"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+      - "CHANNELING:1"
+  - material: SHIELD
+    amount: 1
+    tier: 6
+    display-name: "&#C0C0C0🛡 Sturdy Shield"
+    lore:
+      - "&fDefensive barrier."
+    enchantments:
+      - "UNBREAKING:3"
+  - material: SHIELD
+    amount: 1
+    tier: 6
+    display-name: "&#FFD700🛡 Elite Shield"
+    lore:
+      - "&fUltimate defense."
+    enchantments:
+      - "UNBREAKING:3"
+      - "MENDING:1"
+  - material: BARREL
+    amount: 1
+    tier: 5
+    display-name: "&#00FF46&lVORTEX LOOTBOX"
+    lore:
+    commands:
+      - "shorelootboxgive {player} Vortex 1"
+  - material: BARREL
+    amount: 1
+    tier: 5
+    display-name: "&#00C7FF&lC&#00C7FF&lE&#00C7FF&lL&#40D2BF&lE&#80DD80&lS&#BFE840&lT&#FFF300&lI&#FFF300&lA&#FFF300&lL &#00C7FF&lL&#00C7FF&lO&#00C7FF&lO&#55D6AA&lT&#AAE455&lB&#FFF300&lO&#FFF300&lX"
+    lore:
+    commands:
+      - "shorelootboxgive {player} Celestial 1"

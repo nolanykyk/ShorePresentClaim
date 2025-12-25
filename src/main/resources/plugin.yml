@@ -1,0 +1,13 @@
+name: RewardCrate
+main: com.shore.rewardcrate.RewardCratePlugin
+version: 1.0.0
+api-version: '1.21'
+author: Shore
+commands:
+  rewardcrate:
+    description: Reload RewardCrate config
+    usage: /rewardcrate reload | /rewardcrate list | /rewardcrate give <player> <crateId> [amount]
+    permission: rewardcrate.admin
+permissions:
+  rewardcrate.admin:
+    default: op
